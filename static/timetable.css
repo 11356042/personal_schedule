@@ -77,8 +77,8 @@ body {
 /* 裝飾資料卡裡面的文字 */
 .user-profile-card h3 {
     margin: 0 0 12px 0;
-    font-size: 16px;
-    border-bottom: 1px solid #eeeeee;
+    font-size: 28px;
+    border-bottom: 3px solid #3b466734;
     padding-bottom: 6px;
     color: #3b4667; /* 使用校徽橫條的藍色 */
 }
@@ -90,7 +90,7 @@ body {
     color: #ffffff;
     border: none;
     border-radius: 6px;
-    font-size: 13px;
+    font-size: 18px;
     font-weight: bold;
     font-family: inherit;
     cursor: pointer;
@@ -108,7 +108,7 @@ body {
 }
 .user-profile-card p {
     margin: 6px 0;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 /* 校名文字區塊（消除預設的上下大間距） */
