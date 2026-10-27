@@ -6,18 +6,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+SC:wght@200..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./timetable.css" />
+    <link rel="stylesheet" href="../static/timetable.css" />
 </head>
 <body>
 <div class="brand-bar">
-    <img src="./校徽.png" class="school-logo" alt="校徽">
+    <img src="../static/imgs/校徽.png" class="school-logo" alt="校徽">
     <div class="school-names">
         <h1 class="school-title-zh">國立臺北商業大學</h1>
         <h2 class="school-title-en">National Taipei University of Business</h2>
     </div>
     <!--頭像-->
    <div class="user-menu-hover">
-        <img src="./頭像.png" class="head-logo" alt="頭像">
+        <img src="../static/imgs/頭像.png" class="head-logo" alt="頭像">
         
         <!-- 懸浮基本資料卡 -->
         <div class="user-profile-card">
@@ -30,15 +30,15 @@
     </div>
 </div>
 <div class="system-header">
-    <div class="system-title"><img src = "./book.png" height="80">五專資訊管理系課表查詢系統</div>
+    <div class="system-title"><img src = "../static/imgs/book.png" height="80">五專資訊管理系課表查詢系統</div>
     <div class="info-inputs">
         <!-- 學年下拉選單 -->
         <div class="input-group">
             <span>學年</span>
             <select class="fake-input">
+                <option value="113">113</option>
+                <option value="114">114</option>
                 <option value="115">115</option>
-                <option value="116">116</option>
-                <option value="117">117</option>
             </select>
         </div>
             
@@ -61,7 +61,7 @@
             </select>
         </div>
         <button type="button" class="search-btn">
-            <span class="search-icon"><img src = './screach.png' height="28" width="30"></span> 查詢
+            <span class="search-icon"><img src = '../static/imgs/screach.png' height="28" width="30"></span> 查詢
         </button>
     </div>
 </div>
