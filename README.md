@@ -29,7 +29,7 @@
 
 1. 啟動 Django 開發伺服器：
    ```bash
-   manage.py runserver
+   python manage.py runserver
    ```
 2. 開啟瀏覽器訪問：
    - 登入頁面：[http://127.0.0.1:8000/login/](http://127.0.0.1:8000/login/)
