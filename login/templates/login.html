@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>北商校園系統登入</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+SC:wght@200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'login.css' %}" />
+</head>
+<body>
+<div class="brand-bar">
+    <img src="{% static 'imgs/校徽.png' %}" class="school-logo" alt="校徽">
+    <div class="school-names">
+        <h1 class="school-title-zh">國立臺北商業大學</h1>
+        <h2 class="school-title-en">National Taipei University of Business</h2>
+    </div>
+</div>
+<!-- 滿版學校背景與中央登入區塊 -->
+<main class="login-page">
+    <div class="login-form-card">
+        <h2 class="login-title">北商校園系統登入</h2>
+        
+        {% if error %}
+        <div style="color: #d93025; background-color: #fce8e6; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-size: 0.95rem;">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form id="loginForm" method="post" action="{% url 'login:login' %}">
+            {% csrf_token %}
+            <!-- 帳號輸入群組 -->
+            <div class="input-group">
+                <span class="input-icon"><img src="{% static 'imgs/person.png' %}" height="25" width="26" alt="帳號"></span>
+                <label class="visually-hidden" for="account">帳號</label>
+                <input id="account" name="account" type="text"
+                       autocomplete="username" aria-label="帳號"
+                       placeholder="帳號" required>
+            </div>
+
+            <!-- 密碼輸入群組 -->
+            <div class="input-group">
+                <span class="input-icon"><img src="{% static 'imgs/lock.png' %}" height="25" width="26" alt="密碼"></span>
+                <label class="visually-hidden" for="password">密碼</label>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    aria-label="密碼"
+                    placeholder="密碼"
+                    minlength="8"
+                    maxlength="50"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\S]{8,50}"
+                    title="密碼需包含大寫、小寫英文字母及數字，長度至少 8 碼"
+                    required
+                >
+            </div>
+
+            <!-- 登入按鈕 -->
+            <button type="submit" class="submit-btn">登入</button>
+            <label class="remember-option">
+                <input type="checkbox" id="rememberAccount" name="remember">
+                <span>記住帳號</span>
+            </label>
+        </form>
+    </div>
+</main>
+
+<script src="{% static 'login.js' %}"></script>
+</body>
+</html>
