@@ -63,7 +63,7 @@ body {
     justify-content: flex-start; /* 讓卡片靠左側擺放，如同設計圖 */
     align-items: center;
     padding-left: 8%; /* 讓登入卡片往右推一點，貼近畫面左側 */
-    background-image: url("./login backboard.png"); 
+    background-image: url("../static/imgs/login\ backboard.png"); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -162,7 +162,7 @@ body {
 .remember-option input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    accent-color: #21437e;   /* 勾選時的主題顏色，同步北商大深藍 */
+    accent-color: #21437e;   /* 勾選時的主題顏色，同步北商｛大深藍 */
     cursor: pointer;
     margin: 0;               /* 消除瀏覽器預設外距 */
 }

@@ -1,16 +1,8 @@
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登入畫面</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+SC:wght@200..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./login.css" />
+<link rel="stylesheet" href="../static/login.css" />
 </head>
 <body>
 <div class="brand-bar">
-    <img src="./校徽.png" class="school-logo" alt="校徽">
+    <img src="../static/imgs/校徽.png" class="school-logo" alt="校徽">
     <div class="school-names">
         <h1 class="school-title-zh">國立臺北商業大學</h1>
         <h2 class="school-title-en">National Taipei University of Business</h2>
@@ -24,7 +16,7 @@
         <form id="loginForm">
             <!-- 帳號輸入群組 -->
             <div class="input-group">
-                <span class="input-icon"><img src = './person.png' height="25" width="26"></span>
+                <span class="input-icon"><img src = '../static/imgs/person.png' height="25" width="26"></span>
                 <label class="visually-hidden" for="account">帳號</label>
                 <input id="account" name="account" type="text"
                        autocomplete="username" aria-label="帳號"
@@ -33,7 +25,7 @@
 
             <!-- 密碼輸入群組 -->
             <div class="input-group">
-                <span class="input-icon"><img src = './lock.png' height="25" width="26"></span>
+                <span class="input-icon"><img src = '../static/imgs/lock.png' height="25" width="26"></span>
                 <label class="visually-hidden" for="password">密碼</label>
                 <input
                     id="password"
@@ -42,10 +34,10 @@
                     autocomplete="current-password"
                     aria-label="密碼"
                     placeholder="密碼"
-                    minlength="3"
-                    maxlength="8"
+                    minlength="8"
+                    maxlength="50"
                     pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{3,8}"
-                    title="密碼需包含大寫、小寫英文字母及數字，長度為 3 至 8 碼"
+                    title="密碼需包含大寫、小寫英文字母及數字，長度至少 8 碼"
                     required
                 >
             </div>
@@ -74,11 +66,11 @@
             return;
         }
 
-        // 必須有大寫、小寫英文字母及數字，長度 3～8 碼
-        const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{3,8}$/;
+        // 必須有大寫、小寫英文字母及數字，長度 8 碼
+        const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,50}$/;
 
         if (!passwordRule.test(password)) {
-            alert("密碼必須包含大寫、小寫英文字母及數字，長度為 3～8 碼！");
+            alert("密碼必須包含大寫、小寫英文字母及數字，長度需要 8 碼以上！");
             return;
         }
 
@@ -93,4 +85,3 @@
 </script>
 
 </body>
-</html>
