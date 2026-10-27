@@ -1,0 +1,194 @@
+@charset "UTF-8";
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Noto Serif HK", "Noto Serif SC", serif;
+    background-color: #f0f4f8;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.brand-bar {
+    background-color: #414d6b;
+    padding: 12px 25px; 
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 校徽與文字之間的間距 */
+    box-sizing: border-box;
+    width: 100%;
+    height: 84px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+/* 校徽圖片樣式 */
+.school-logo {
+    height: 60px; 
+    width: auto;
+    object-fit: contain;
+}
+.school-names {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.school-title-zh {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 1px;
+    line-height: 1.3;
+}
+
+.school-title-en {
+    color: #ffffffde; 
+    font-size: 1rem; 
+    font-weight: 700;
+    margin: 0;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+}
+
+/* 學校背景區域（佔滿頂部欄以外的所有空間） */
+.login-page {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start; /* 讓卡片靠左側擺放，如同設計圖 */
+    align-items: center;
+    padding-left: 8%; /* 讓登入卡片往右推一點，貼近畫面左側 */
+    background-image: url("./login backboard.png"); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+/* 中央半透明白色登入卡片 */
+.login-form-card {
+    background-color: rgba(255, 255, 255, 0.85); /* 半透明白色背景 */
+    backdrop-filter: blur(10px); /* 現代瀏覽器的毛玻璃特效 */
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.login-title {
+    color: #21437e; /* 圖片中的北商大經典深藍色 */
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+}
+
+/* 輸入框群組（含圖標與框體設定） */
+.input-group {
+    position: relative;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    color: #8da2be;
+    font-size: 1.2rem;
+    pointer-events: none;
+}
+
+.input-group input {
+    width: 100%;
+    height: 48px;
+    padding: 0 15px 0 45px; /* 左側留空間給圖標 */
+    border: 1px solid #d3dfee;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #25344b;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+    border-color: #21437e;
+    box-shadow: 0 0 0 3px rgba(33, 67, 126, 0.15);
+}
+
+/* 經典深藍色登入按鈕 */
+.submit-btn {
+    width: 100%;
+    height: 48px;
+    background-color: #21437e; /* 完美的北商大藍 */
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.2s ease;
+    letter-spacing: 2px;
+}
+
+.submit-btn:hover {
+    background-color: #16305c; /* 懸停時顏色加深 */
+    box-shadow: 0 4px 12px rgba(33, 67, 126, 0.3);
+}
+.remember-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* ✨ 核心：讓整行在按鈕下方水平置中 */
+    gap: 8px;                /* ✨ 核心：方塊與文字之間的舒適小間距（可依喜好微調） */
+    width: 100%;             /* 撐滿卡片寬度 */
+    margin-top: 18px;        /* 與上方登入按鈕留出乾淨的間距 */
+    color: #4b587b;          /* 北商大質感深藍灰色字體 */
+    font-size: 17.5px;      /* 適中字體大小 */
+    cursor: pointer;         /* 滑鼠移上去變手指圖標 */
+    user-select: none;       /* 防止點擊時出現藍色選取區 */
+}
+
+/* 設定小勾選框的尺寸與顏色 */
+.remember-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #21437e;   /* 勾選時的主題顏色，同步北商大深藍 */
+    cursor: pointer;
+    margin: 0;               /* 消除瀏覽器預設外距 */
+}
+/* 無障礙視覺隱藏類別 */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* RDP 手機板響應式設計 */
+@media (max-width: 500px) {
+    .login-page {
+        padding: 20px;
+        justify-content: center; /* 手機版時卡片居中 */
+    }
+    .login-form-card {
+        padding: 30px 20px;
+    }
+    .login-title {
+        font-size: 1.5rem;
+    }
+}

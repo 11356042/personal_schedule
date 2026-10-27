@@ -1,0 +1,374 @@
+@charset "UTF-8";
+body {
+    font-family: "Noto Serif HK", serif;
+    background-color: #f0f4f8;
+    margin: 0;
+    display: block;
+    min-height: auto;
+    padding: 0 0 40px 0;
+    justify-content: center;
+    align-items: center;
+    }
+.brand-bar {
+    background-color: #414d6b;
+    padding: 12px 25px; 
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 校徽與文字之間的間距 */
+    box-sizing: border-box;
+    width: 100%;
+    height: 84px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+/* 校徽圖片樣式 */
+.school-logo {
+    height: 60px; 
+    width: auto;
+    object-fit: contain;
+}
+/* 懸浮顯示基本資料卡（Hover 觸發）*/
+/* 外層包裹容器（強制推到最右邊） */
+.user-menu-hover {
+    position: relative;
+    margin-left: auto; /* 推到最右邊 */
+    padding: 10px 0;   /* 增加隱形緩衝區，防止滑鼠滑向卡片時中斷消失 */
+    cursor: pointer;
+}
+
+/* 頭像基礎樣式 */
+.head-logo {
+    height: 55px;
+    width: 55px;
+    object-fit: cover;
+    border-radius: 50%;
+    display: block;
+}
+
+/* 基本資料卡：預設狀態（完全隱藏，且加入淡入淡出動畫） */
+.user-profile-card {
+    position: absolute;
+    top: 65px; /* 剛好在大頭貼下方 */
+    right: 0;  /* 靠右對齊大頭貼 */
+    width: 200px;
+    background-color: white;
+    color: #000;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 10000;
+    
+    /* 隱藏設定 */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px); /* 讓它有一點由上往下掉落的視覺效果 */
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+/* 核心關鍵：當滑鼠移入外層容器時，顯示基本資料卡 */
+.user-menu-hover:hover .user-profile-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0); /* 回歸正常位置 */
+}
+
+/* 裝飾資料卡裡面的文字 */
+.user-profile-card h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 6px;
+    color: #3b4667; /* 使用校徽橫條的藍色 */
+}
+.logout-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 8px 0;
+    background-color: #d9534f; /* 柔和、有質感的警告紅 */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* 滑鼠懸停（Hover）特效 */
+.logout-btn:hover {
+    background-color: #c9302c; /* 顏色稍微變深 */
+}
+
+/* 點擊（Active）下壓特效，增加互動反饋 */
+.logout-btn:active {
+    transform: scale(0.98);
+}
+.user-profile-card p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+/* 校名文字區塊（消除預設的上下大間距） */
+.school-names {
+    display: flex;
+    flex-direction: column; /* 讓中文和英文變成「上下兩行」排版 */
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* 中文校名樣式 */
+.school-title-zh {
+    font-family: "Noto Serif HK", serif; /* 套用您選的優雅宋體 */
+    color: #ffffff; /* 純白字體 */
+    font-size: 1.5rem; /* 字體大小 */
+    font-weight: bold;
+    margin: 0; /* 消除 h1 預設外距 */
+    padding: 0;
+    letter-spacing: 1px; /* 微調字距 */
+    line-height: 1.3;
+}
+
+/* 英文校名樣式 */
+.school-title-en {
+    font-family: "Noto Serif HK", serif;
+    color: #ffffffde; 
+    font-size: 1rem; 
+    font-weight: 700;
+    margin: 0; /* 消除 h2 預設外距 */
+    padding: 0;
+    margin-top: 2px; /* 與上方中文留一點點縫隙 */
+    letter-spacing: 0.5px;
+}
+/* 頂部系統欄 */
+.system-header {
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 84px;
+    border-bottom: 2px solid #b2c2d2;
+    padding: 5px 10px 15px 10px;
+    color: #555555;
+    z-index: 100;
+}
+
+.system-title {
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+
+/* 學年學期 */
+.info-inputs {
+    display: flex;
+    gap: 15px;
+    font-size: 0.95rem;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: #2b3e66;
+    font-size: 1.8rem;
+}
+
+.fake-input {
+    width: 80px;
+    height: 30px;
+    border: 1px solid #a0a0a0;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 1.3rem;
+}
+.fake-input2 {
+    font-family: inherit;
+    width: 110px;
+    height: 34px;
+    border: 1px solid #a0a0a0;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+.search-btn {
+    background-color: #3b4463; 
+    color: #ffffff;            
+    border: none;
+    height: 20px;
+    padding: 18px 18px;
+    margin-left: 20px;           
+    border-radius: 10px;       
+    font-family: inherit;
+    font-size: 1.48rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;                  /* 放大鏡圖標與「查詢」文字的間距 */
+    cursor: pointer; 
+    transition: all 0.2s ease; /* 增加滑鼠懸停時的滑順過渡動畫 */
+}
+
+/* 按鈕滑鼠懸停（Hover）特效，增加點擊互動感 */
+.search-btn:hover {
+    background-color: #2b334d; /* 顏色稍微變深 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影加深，看起來更像可以按 */
+}
+
+/* 課表主外框（含圓角與陰影） */
+.system-container {
+    background-color:transparent;
+    width: 100%;
+    max-width: 1250px; 
+    padding:0;
+    box-sizing: border-box;
+    margin:40px auto 40px auto;
+}
+
+/* 表格主體樣式 */
+table {
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 25px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed; /* 固定欄寬 */
+    background-color: #fff;
+    box-shadow: 0 8px 20px raba(0,0,0.15);
+    overflow: hidden;
+    border: 1px solid #b2c2d2;
+}
+
+/* 表頭樣式（淡藍色背景） */
+th {
+    background-color: #8fa4cd;
+    color: white;
+    font-weight: normal;
+    font-size: 1.38rem;
+    padding: 12px 5px;
+    border: 1px solid #b2c2d2;
+    text-align: center;
+}
+
+/* 第一欄（節次欄）固定寬度 */
+th:first-child, td:first-child {
+    width: 15%;
+}
+
+/* 一般儲存格樣式 */
+td {
+    border: 1px solid #b2c2d2;
+    height: 52px;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: #ffffff;
+    box-sizing: border-box;
+}
+
+/* 左側節次欄的特殊雙行字體樣式 */
+.time-col {
+    background-color: #f7fafc; /* 讓節次欄顏色稍微有點區隔 */
+    color: #2b3e66;
+    font-size: 1.15rem;
+    line-height: 1.4;
+}
+
+.time-text {
+    font-size: 1rem;
+    color: #2b3e66;
+    display: block;
+    margin-top: 2px;
+    font-family: monospace, sans-serif;
+}
+/*1. 外層遮罩樣式（負責背景變暗，並透過 Flexbox 讓內層居中）*/
+.toast-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明背景 */
+    z-index: 9999; /* 確保在所有網頁元件的最上層 */
+    
+    /* 讓內層的提示框絕對居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* 預設狀態：隱藏且不佔空間 */
+    opacity: 0;
+    visibility: hidden;
+    
+    /* 動態：2秒總長度 */
+    animation: overlayFade 2s ease-in-out forwards;
+}
+
+/*2. 內層提示框樣式（負責彈跳與文字視覺）*/
+.toast-box {
+    background-color: #bed0f3; /* 提示框粉藍色背景 */
+    color: black;
+    padding: 100px 100px; /* 大器的大內邊距 */
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    font-size: 30px; /* 大字體 */
+    font-weight: bold;
+    text-align: center;
+
+    /* 預設狀態：縮小並隱藏 */
+    transform: scale(0.7);
+    opacity: 0;
+
+    /* 動態：2秒總長度，與外層同步 */
+    animation: boxPopInOut 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/*3. 重新修正後的 2 秒動態劇本（精準配合總時間 2s） */
+/* 外層遮罩的淡入與淡出 */
+@keyframes overlayFade {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+    }
+    20% { /* 第 0.4 秒時（2s * 20%）：完全顯現，背景變暗 */
+        opacity: 1;
+        visibility: visible;
+    }
+    80% { /* 停留到第 1.6 秒（2s * 80%）：這期間的 1.2 秒維持變暗 */
+        opacity: 1;
+        visibility: visible;
+    }
+    100% { /* 最後 0.4 秒：到第 2 秒整，完全淡出隱藏 */
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* 內層提示框的放大彈出與縮小隱藏 */
+@keyframes boxPopInOut {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    20% { /* 第 0.4 秒時：放大到 100% 並彈一下，文字完美顯現 */
+        transform: scale(1);
+        opacity: 1;
+    }
+    80% { /* 停留到第 1.6 秒：靜止在中央供使用者觀看 */
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% { /* 最後 0.4 秒：在第 2 秒整時，完美縮小到 0.7 並淡出消失 */
+        transform: scale(0.7);
+        opacity: 0;
+    }
+}
