@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="../static/login.css" />
+<link rel="stylesheet" href="{{url_for('static',filename='login.css')}}" />
+<script src="{{url_for('static',filename='login.js')}}"></script>
 </head>
 <body>
 <div class="brand-bar">
@@ -36,7 +37,7 @@
                     placeholder="密碼"
                     minlength="8"
                     maxlength="50"
-                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{3,8}"
+                    pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,50}"
                     title="密碼需包含大寫、小寫英文字母及數字，長度至少 8 碼"
                     required
                 >
@@ -52,36 +53,5 @@
     </div>
 </main>
 
-<script>
-    const form = document.getElementById("loginForm");
-
-    form.addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        const account = document.getElementById("account").value.trim();
-        const password = document.getElementById("password").value;
-
-        if (account === "" || password === "") {
-            alert("請輸入帳號和密碼！");
-            return;
-        }
-
-        // 必須有大寫、小寫英文字母及數字，長度 8 碼
-        const passwordRule = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z0-9]{8,50}$/;
-
-        if (!passwordRule.test(password)) {
-            alert("密碼必須包含大寫、小寫英文字母及數字，長度需要 8 碼以上！");
-            return;
-        }
-
-        // 格式正確，將輸入的帳號與模擬學號存進瀏覽器暫存空間
-         localStorage.setItem("loggedInAccount", account);
-      localStorage.setItem("loggedInStudentID", account); 
-      localStorage.setItem("loggedInClass", "資管一甲"); 
-
-        // 成功後連動跳轉課表頁面 (請確保名稱為 timetable.html)
-        window.location.href = "timetable.html";
-    });
-</script>
-
+<script src="../static/login.js"></script>
 </body>
