@@ -63,7 +63,7 @@ body {
     justify-content: flex-start; /* 讓卡片靠左側擺放，如同設計圖 */
     align-items: center;
     padding-left: 8%; /* 讓登入卡片往右推一點，貼近畫面左側 */
-    background-image: url("../static/imgs/login\ backboard.png"); 
+    background-image: url("/static/imgs/login%20backboard.png"); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
