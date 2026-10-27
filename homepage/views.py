@@ -1,8 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from django.shortcuts import redirect
 
 
 # 固定課表資料
@@ -55,7 +54,7 @@ def schedule(request):
 
     return render(
         request,
-        "homepage.html",
+        "timetable.html",
         {
             "weekdays": weekdays,
             "rows": rows,
@@ -66,10 +65,6 @@ def schedule(request):
     )
 
 
-@login_required
 def logout_view(request):
-    if request.method == "POST":
-        logout(request)
-        return redirect("login")
-
-    return redirect("schedule")
+    logout(request)
+    return redirect("login:login")

@@ -1,3 +1,5 @@
+{% load static %}
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -6,18 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+SC:wght@200..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/timetable.css" />
+    <link rel="stylesheet" href="{% static 'timetable.css' %}" />
 </head>
 <body>
 <div class="brand-bar">
-    <img src="../static/imgs/校徽.png" class="school-logo" alt="校徽">
+    <img src="{% static 'imgs/校徽.png' %}" class="school-logo" alt="校徽">
     <div class="school-names">
         <h1 class="school-title-zh">國立臺北商業大學</h1>
         <h2 class="school-title-en">National Taipei University of Business</h2>
     </div>
     <!--頭像-->
    <div class="user-menu-hover">
-        <img src="../static/imgs/頭像.png" class="head-logo" alt="頭像">
+        <img src="{% static 'imgs/頭像.png' %}" class="head-logo" alt="頭像">
         
         <!-- 懸浮基本資料卡 -->
         <div class="user-profile-card">
@@ -30,7 +32,7 @@
     </div>
 </div>
 <div class="system-header">
-    <div class="system-title"><img src = "../static/imgs/book.png" height="80">五專資訊管理系課表查詢系統</div>
+    <div class="system-title"><img src="{% static 'imgs/book.png' %}" height="80" alt="書籍">五專資訊管理系課表查詢系統</div>
     <div class="info-inputs">
         <!-- 學年下拉選單 -->
         <div class="input-group">
@@ -61,7 +63,7 @@
             </select>
         </div>
         <button type="button" class="search-btn">
-            <span class="search-icon"><img src = '../static/imgs/screach.png' height="28" width="30"></span> 查詢
+            <span class="search-icon"><img src="{% static 'imgs/screach.png' %}" height="28" width="30" alt="查詢"></span> 查詢
         </button>
     </div>
 </div>
@@ -147,7 +149,7 @@
         // 2. 安全機制：若沒有登入資料就直接開課表，會自動彈出警告並踢回登入畫面
         if (!savedAccount) {
             alert("請先登入系統！");
-            window.location.href = "login.html"; // 這裡填你登入畫面的 HTML 檔名
+            window.location.href = "/login/";
             return;
         }
 
@@ -158,6 +160,17 @@
 
         // 4. 同步更新課表畫面剛進去時的彈出歡迎視窗（Toast）
         document.getElementById("toast-message").textContent = `歡迎 ${savedAccount} 登入成功！`;
+
+        // 5. 綁定登出按鈕
+        const logoutBtn = document.getElementById("logoutBtn");
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", function() {
+                localStorage.removeItem("loggedInAccount");
+                localStorage.removeItem("loggedInStudentID");
+                localStorage.removeItem("loggedInClass");
+                window.location.href = "/logout/";
+            });
+        }
     });
 </script>
 </body>

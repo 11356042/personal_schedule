@@ -12,6 +12,7 @@ def post(client, path, payload):
 class AuthTests(TestCase):
     REGISTER = "/register/"
     LOGIN = "/login/"
+    API_LOGIN = "/api/login/"
 
     def register(self, password="Str0ng!Pass123", username="Alice"):
         return post(self.client, self.REGISTER,
@@ -56,3 +57,33 @@ class AuthTests(TestCase):
         res = post(self.client, self.LOGIN,
                    {"username": "Alice", "password": "str0ng!pass123"})
         self.assertEqual(res.status_code, 401)
+
+    def test_login_page_renders_html_on_get(self):
+        res = self.client.get(self.LOGIN)
+        self.assertEqual(res.status_code, 200)
+        self.assertTemplateUsed(res, "login.html")
+        self.assertContains(res, "北商校園系統登入")
+
+    def test_api_login_with_account_field_success(self):
+        self.register(username="11356042")
+        self.client.logout()
+        res = post(self.client, self.API_LOGIN,
+                   {"account": "11356042", "password": "Str0ng!Pass123", "remember": True})
+        self.assertEqual(res.status_code, 200)
+        data = res.json()
+        self.assertEqual(data["message"], "登入成功")
+        self.assertEqual(data["user"]["account"], "11356042")
+        self.assertEqual(data["redirect_url"], "/timetable/")
+
+    def test_timetable_requires_login_and_redirects_to_login(self):
+        res = self.client.get("/timetable/")
+        self.assertEqual(res.status_code, 302)
+        self.assertTrue(res.url.startswith("/login/"))
+
+    def test_timetable_accessible_after_login(self):
+        self.register(username="11356042")
+        post(self.client, self.API_LOGIN,
+             {"account": "11356042", "password": "Str0ng!Pass123"})
+        res = self.client.get("/timetable/")
+        self.assertEqual(res.status_code, 200)
+        self.assertTemplateUsed(res, "timetable.html")
