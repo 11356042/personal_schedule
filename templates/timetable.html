@@ -27,6 +27,9 @@
             <p><strong>帳號：</strong><span id="user-account">載入中...</span></p>
             <p><strong>學號：</strong><span id="user-student-id">載入中...</span></p>
             <p><strong>班級：</strong><span id="user-class">載入中...</span></p>
+            <form id="logoutForm" action="{% url 'homepage:logout' %}" method="POST" style="display: none;">
+                {% csrf_token %}
+            </form>
             <button type="button" class="logout-btn" id="logoutBtn">登出</button>
         </div>
     </div>
@@ -37,32 +40,35 @@
         <!-- 學年下拉選單 -->
         <div class="input-group">
             <span>學年</span>
-            <select class="fake-input">
-                <option value="113">113</option>
-                <option value="114">114</option>
-                <option value="115">115</option>
+            <select class="fake-input" id="yearSelect">
+                <option value="" {% if not request.GET.year %}selected{% endif %} hidden></option>
+                <option value="113" {% if request.GET.year == "113" %}selected{% endif %}>113</option>
+                <option value="114" {% if request.GET.year == "114" %}selected{% endif %}>114</option>
+                <option value="115" {% if request.GET.year == "115" %}selected{% endif %}>115</option>
             </select>
         </div>
             
         <!-- 學期下拉選單 -->
         <div class="input-group">
             <span>學期</span>
-            <select class="fake-input">
-                <option value="1">1</option>
-                <option value="2">2</option>
+            <select class="fake-input" id="semesterSelect">
+                <option value="" {% if not request.GET.semester %}selected{% endif %} hidden></option>
+                <option value="1" {% if request.GET.semester == "1" %}selected{% endif %}>1</option>
+                <option value="2" {% if request.GET.semester == "2" %}selected{% endif %}>2</option>
             </select>
         </div>
         <div class='input-group'>
             <span>班級</span>
-            <select class="fake-input2">
-                <option value="資管一甲">資管一甲</option>
-                <option value="資管二甲">資管二甲</option>
-                <option value="資管三甲">資管三甲</option>
-                <option value="資管四甲">資管四甲</option>
-                <option value="資管五甲">資管五甲</option>
+            <select class="fake-input2" id="classSelect">
+                <option value="" {% if not request.GET.class_name %}selected{% endif %} hidden></option>
+                <option value="資管一甲" {% if request.GET.class_name == "資管一甲" %}selected{% endif %}>資管一甲</option>
+                <option value="資管二甲" {% if request.GET.class_name == "資管二甲" %}selected{% endif %}>資管二甲</option>
+                <option value="資管三甲" {% if request.GET.class_name == "資管三甲" %}selected{% endif %}>資管三甲</option>
+                <option value="資管四甲" {% if request.GET.class_name == "資管四甲" %}selected{% endif %}>資管四甲</option>
+                <option value="資管五甲" {% if request.GET.class_name == "資管五甲" %}selected{% endif %}>資管五甲</option>
             </select>
         </div>
-        <button type="button" class="search-btn">
+        <button type="button" class="search-btn" id="searchBtn">
             <span class="search-icon"><img src="{% static 'imgs/search.png' %}" height="25" width="30" alt="查詢"></span> 查詢
         </button>
     </div>
@@ -82,56 +88,31 @@
                 <th>六</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="timetableBody">
+            <!-- 🌟【精準修改：原步驟1】將原本寫死的tr全部清空，改由 Django 模板標籤直接對接後端真實 rows 課表 -->
+            {% for row in rows %}
             <tr>
-                <td class="time-col">第一節<span class="time-text">08:10~09:00</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第二節<span class="time-text">09:10~10:00</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第三節<span class="time-text">10:10~11:00</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第四節<span class="time-text">11:10~12:00</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第五節<span class="time-text">13:30~14:20</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第六節<span class="time-text">14:25~15:15</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第七節<span class="time-text">15:25~16:15</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第八節<span class="time-text">16:20~17:10</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第九節<span class="time-text">17:15~18:05</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第十節</td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
-            <tr>
-                <td class="time-col">第十一節<span class="time-text">18:30~19:15</span></td>
+                <td class="time-col">
+                    第{{ row.period }}節
+                    {% if row.time %}<span class="time-text">{{ row.time }}</span>{% endif %}
+                </td>
+                {% for cell in row.cells %}
+                <td>
+                    {% if request.GET.year or request.GET.class_name %}
+                        {% if cell.course_name %}
+                            <div class="course-box" style="text-align: center; padding: 5px;">
+                                <div class="course-name" style="font-weight: bold; color: #2c3e50; margin-bottom: 2px;">{{ cell.course_name }}</div>
+                                <div class="course-teacher" style="font-size: 0.85em; color: #7f8c8d;">{{ cell.teacher }}</div>
+                                <div class="course-room" style="font-size: 0.85em; color: #95a5a6; margin-top: 2px;">{{ cell.classroom }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </td>
+                {% endfor %}
+                <!-- 星期六留空欄對齊 thead -->
                 <td></td>
-                <td></td><td></td><td></td><td></td><td></td>
             </tr>
-            <tr>
-                <td class="time-col">第十二節<span class="time-text">19:15~20:05</span></td>
-                <td></td><td></td><td></td><td></td><td></td><td></td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>
@@ -158,20 +139,33 @@
         document.getElementById("user-student-id").textContent = savedStudentID;
         document.getElementById("user-class").textContent = savedClass;
 
-        // 4. 同步更新課表畫面剛進去時的彈出歡迎視窗（Toast）
-        document.getElementById("toast-message").textContent = `歡迎 ${savedAccount} 登入成功！`;
+        // 🌟【精準修改：原步驟2】判斷網址列是否帶有 year 參數，如果有點擊查詢刷新，直接隱藏歡迎詞遮罩
+        const toastOverlay = document.querySelector(".toast-overlay");
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        if (urlParams.get("year") || urlParams.get("class_name")) {
+            if (toastOverlay) {
+                toastOverlay.style.display = "none";
+            }
+        } else {
+            // 只有一般進入或純手動 F5 刷新時，才跳出歡迎詞
+            document.getElementById("toast-message").textContent = `歡迎 ${savedAccount} 登入成功！`;
+        }
 
         // 5. 綁定登出按鈕
         const logoutBtn = document.getElementById("logoutBtn");
-        if (logoutBtn) {
+        const logoutForm = document.getElementById("logoutForm");
+        if (logoutBtn && logoutForm) {
             logoutBtn.addEventListener("click", function() {
                 localStorage.removeItem("loggedInAccount");
                 localStorage.removeItem("loggedInStudentID");
                 localStorage.removeItem("loggedInClass");
-                window.location.href = "/logout/";
+                logoutForm.submit(); // 安全送出 POST 請求進行登出
             });
         }
     });
 </script>
+<!-- 引入你建立的外部 timetable.js 檔案 -->
+<script src="{% static 'timetable.js' %}"></script>
 </body>
 </html>

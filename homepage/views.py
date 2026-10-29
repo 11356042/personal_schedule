@@ -9,7 +9,7 @@ from django.contrib.auth import logout
 # 可選擇的學年、學期、年級
 YEARS = ["113", "114", "115"]
 SEMESTERS = ["1", "2"]
-CLASSES = ["資管一", "資管二", "資管三", "資管四", "資管五"]
+CLASSES = ["資管一甲", "資管二甲", "資管三甲", "資管四甲", "資管五甲"]
 
 
 # 模擬資管系課程資料
@@ -96,7 +96,7 @@ def schedule(request):
     # 讀取使用者選擇的條件
     year = request.GET.get("year", "115")
     semester = request.GET.get("semester", "1")
-    class_name = request.GET.get("class_name", "資管一")
+    class_name = request.GET.get("class_name", "資管一甲")
 
     # 避免輸入不存在的選項
     if year not in YEARS:
@@ -106,7 +106,7 @@ def schedule(request):
         semester = "1"
 
     if class_name not in CLASSES:
-        class_name = "資管一"
+        class_name = "資管一甲"
 
     # 取得對應的課表
     course_data = SCHEDULE_DATA.get(
@@ -161,6 +161,8 @@ def schedule(request):
         "username": request.user.username,
     }
 
+    import json
+    context["rows_json"] = json.dumps(rows)
     return render(
         request,
         "timetable.html",
