@@ -21,7 +21,10 @@ def _parse_json(request):
 
 """動態取得使用者的 Profile 資料"""
 def _user_data(user):
-    profile = getattr(user, "profile", None)
+    try:
+        profile = user.profile
+    except UserProfile.DoesNotExist:
+        profile = None
     
     role = profile.role if profile else "student"
     role_display = profile.get_role_display() if profile else "學生"

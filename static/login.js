@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 // 儲存登入者資訊至瀏覽器暫存
-                const studentID = data.user && data.user.student_id ? data.user.student_id : account;
+                const studentID = data.user && data.user.student_id ? data.user.student_id : "";
                 const className = data.user && data.user.class_name ? data.user.class_name : "";
 
                 localStorage.setItem("loggedInAccount", account);
