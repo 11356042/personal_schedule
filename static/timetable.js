@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // 向後端確認真正的登入狀態 (避免 localStorage 遺失但 Session 還在的問題)
     try {
-        const response = await fetch("/login/me/", { credentials: "same-origin" });
+        const response = await fetch("/me/", { credentials: "same-origin" });
         if (response.ok) {
             const user = await response.json();
             // 後端確認已登入，同步更新前端暫存
@@ -27,12 +27,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     } catch (err) {
         console.error("無法驗證登入狀態：", err);
-        // 如果連 localStorage 都沒有且網路請求失敗，才退回登入頁
-        if (!savedAccount) {
-            alert("請先登入系統！");
-            window.location.href = "/login/";
-            return;
-        }
+        alert("登入狀態驗證失敗，請重新登入！");
+        window.location.href = "/login/";
+        return;
     }
 
     // =======================================================
@@ -45,6 +42,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     const toastOverlay = document.querySelector(".toast-overlay");
     const urlParams = new URLSearchParams(window.location.search);
 
+    const classSelect = document.getElementById("classSelect");
+
+    if (classSelect && savedClass) {
+        classSelect.value = savedClass;
+    }
     if (userAccountElem) userAccountElem.textContent = savedAccount;
     if (userStudentIdElem) userStudentIdElem.textContent = savedStudentID;
     if (userClassElem) userClassElem.textContent = savedClass;
@@ -100,7 +102,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             const semester = document.getElementById("semesterSelect").value;
             const class_name = document.getElementById("classSelect").value;
 
-            window.location.href = `${window.location.origin}${window.location.pathname}?year=${year}&semester=${semester}&class_name=${class_name}`;
+                // 檢查是否有選擇班級
+            if (!class_name) {
+                alert("請先選擇班級！");
+                return;
+            }
+            window.location.href =
+                `${window.location.origin}${window.location.pathname}?year=${year}&semester=${semester}&class_name=${encodeURIComponent(class_name)}`;
         });
     }
 

@@ -59,7 +59,21 @@ class RegisterForm(forms.Form):
     def clean_password(self):
         password = self.cleaned_data.get("password")
         if password:
-            validate_password(password)
+        # 至少包含一個大寫英文字母
+            if not any(c.isupper() for c in password):
+                raise forms.ValidationError("密碼必須包含至少一個大寫英文字母")
+
+        # 至少包含一個小寫英文字母
+            if not any(c.islower() for c in password):
+                raise forms.ValidationError("密碼必須包含至少一個小寫英文字母")
+
+        # 至少包含一個數字
+            if not any(c.isdigit() for c in password):
+                raise forms.ValidationError("密碼必須包含至少一個數字")
+
+        # 執行 Django 原本的密碼強度驗證
+        validate_password(password)
+
         return password
 
     def clean(self):
