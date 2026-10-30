@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+HK:wght@200..900&family=Noto+Serif+SC:wght@200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'login.css' %}" />
+ 
 </head>
 <body>
 <div class="brand-bar">
@@ -18,6 +19,7 @@
         <h2 class="school-title-en">National Taipei University of Business</h2>
     </div>
 </div>
+
 <!-- 滿版學校背景與中央登入區塊 -->
 <main class="login-page">
     <div class="login-form-card">
@@ -66,8 +68,78 @@
                 <span>記住帳號</span>
             </label>
         </form>
+
+        <!-- 💥 還沒有帳號？按此註冊 -->
+        <div class="register-link-container">
+            還沒有帳號？<a id="openRegisterModal">按此註冊</a>
+        </div>
     </div>
 </main>
+
+<!-- 💥 註冊 Modal 彈出視窗 -->
+<div class="modal-overlay" id="registerModal">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>建立新帳號</h3>
+            <button type="button" class="close-btn" id="closeRegisterModal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-error" id="registerError"></div>
+
+            <!-- 註冊 Modal 彈窗區域內 -->
+<form id="registerForm" action="{% url 'login:register' %}">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="reg_username">帳號</label>
+        <input type="text" id="reg_username" name="username" required placeholder="請設定登入帳號">
+    </div>
+
+    <!-- 💥 新增姓名欄位 -->
+    <div class="form-group">
+        <label for="reg_real_name">姓名</label>
+        <input type="text" id="reg_real_name" name="real_name" required placeholder="請輸入真實姓名">
+    </div>
+
+    <div class="form-group">
+        <label for="reg_role">身分</label>
+        <select id="reg_role" name="role">
+            <option value="student" selected>學生</option>
+            <option value="teacher">老師</option>
+        </select>
+    </div>
+
+    <!-- 💥 學生專用：學號欄位 -->
+    <div class="form-group" id="studentIdGroup">
+        <label for="reg_student_id">學號</label>
+        <input type="text" id="reg_student_id" name="student_id" placeholder="請輸入學號">
+    </div>
+
+    <!-- 學生專用：班級選擇區塊 -->
+    <div class="form-group" id="classGroup">
+        <label for="reg_school_class">班級</label>
+        <select id="reg_school_class" name="school_class">
+            <option value="">請選擇班級</option>
+            {% for sc in school_classes %}
+                <option value="{{ sc.id }}">{{ sc.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="reg_password">密碼</label>
+        <input type="password" id="reg_password" name="password" required placeholder="至少 8 碼英數字組合">
+    </div>
+
+    <div class="form-group">
+        <label for="reg_password_confirm">確認密碼</label>
+        <input type="password" id="reg_password_confirm" name="password_confirm" required placeholder="請再次輸入密碼">
+    </div>
+
+    <button type="submit" class="submit-btn" style="margin-top: 10px;">完成註冊</button>
+</form>
+        </div>
+    </div>
+</div>
 
 <script src="{% static 'login.js' %}"></script>
 </body>

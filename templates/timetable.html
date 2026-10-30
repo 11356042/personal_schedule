@@ -120,51 +120,7 @@
     <!-- 內層提示框：負責顯示歡迎文字 -->
     <div class="toast-box" id="toast-message">歡迎登入成功！</div>
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 1. 從瀏覽器暫存中，把剛才在登入畫面存的帳號抓出來
-        const savedAccount = localStorage.getItem("loggedInAccount");
-        const savedStudentID = localStorage.getItem("loggedInStudentID");
-        const savedClass = localStorage.getItem("loggedInClass");
 
-        // 2. 安全機制：若沒有登入資料就直接開課表，會自動彈出警告並踢回登入畫面
-        if (!savedAccount) {
-            alert("請先登入系統！");
-            window.location.href = "/login/";
-            return;
-        }
-
-        // 3. 動態將資料填入右上角的基本資料卡片中
-        document.getElementById("user-account").textContent = savedAccount;
-        document.getElementById("user-student-id").textContent = savedStudentID;
-        document.getElementById("user-class").textContent = savedClass;
-
-        // 🌟【精準修改：原步驟2】判斷網址列是否帶有 year 參數，如果有點擊查詢刷新，直接隱藏歡迎詞遮罩
-        const toastOverlay = document.querySelector(".toast-overlay");
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        if (urlParams.get("year") || urlParams.get("class_name")) {
-            if (toastOverlay) {
-                toastOverlay.style.display = "none";
-            }
-        } else {
-            // 只有一般進入或純手動 F5 刷新時，才跳出歡迎詞
-            document.getElementById("toast-message").textContent = `歡迎 ${savedAccount} 登入成功！`;
-        }
-
-        // 5. 綁定登出按鈕
-        const logoutBtn = document.getElementById("logoutBtn");
-        const logoutForm = document.getElementById("logoutForm");
-        if (logoutBtn && logoutForm) {
-            logoutBtn.addEventListener("click", function() {
-                localStorage.removeItem("loggedInAccount");
-                localStorage.removeItem("loggedInStudentID");
-                localStorage.removeItem("loggedInClass");
-                logoutForm.submit(); // 安全送出 POST 請求進行登出
-            });
-        }
-    });
-</script>
 <!-- 引入你建立的外部 timetable.js 檔案 -->
 <script src="{% static 'timetable.js' %}"></script>
 </body>
