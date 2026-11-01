@@ -5,16 +5,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     let savedAccount = localStorage.getItem("loggedInAccount");
     let savedStudentID = localStorage.getItem("loggedInStudentID");
     let savedClass = localStorage.getItem("loggedInClass");
-
+    let userData = null;
     // 向後端確認真正的登入狀態 (避免 localStorage 遺失但 Session 還在的問題)
     try {
         const response = await fetch("/me/", { credentials: "same-origin" });
         if (response.ok) {
-            const user = await response.json();
+            userData = await response.json();
+            console.log("登入資料：", userData);
+            console.log("使用者角色：", userData.role);
+            console.log("使用者姓名：", userData.real_name);
+
             // 後端確認已登入，同步更新前端暫存
-            savedAccount = user.account || user.username;
-            savedStudentID = user.student_id || user.username;
-            savedClass = user.class_name || "";
+            savedAccount = userData.account || userData.username || "";
+            savedStudentID = userData.student_id || "";
+            savedClass = userData.class_name || "";
 
             localStorage.setItem("loggedInAccount", savedAccount);
             localStorage.setItem("loggedInStudentID", savedStudentID);
@@ -38,19 +42,57 @@ document.addEventListener("DOMContentLoaded", async function () {
     const userAccountElem = document.getElementById("user-account");
     const userStudentIdElem = document.getElementById("user-student-id");
     const userClassElem = document.getElementById("user-class");
+    const userRealNameElem = document.getElementById("user-real-name");
+
+    const studentIdRow = document.getElementById("student-id-row");
+    const classRow = document.getElementById("class-row");
+    const realNameRow = document.getElementById("real-name-row");
+
     const toastMessageElem = document.getElementById("toast-message");
     const toastOverlay = document.querySelector(".toast-overlay");
     const urlParams = new URLSearchParams(window.location.search);
 
     const classSelect = document.getElementById("classSelect");
 
-    if (classSelect && savedClass) {
-        classSelect.value = savedClass;
+    // 顯示帳號
+    if (userAccountElem) {
+        userAccountElem.textContent = savedAccount;
     }
-    if (userAccountElem) userAccountElem.textContent = savedAccount;
-    if (userStudentIdElem) userStudentIdElem.textContent = savedStudentID;
-    if (userClassElem) userClassElem.textContent = savedClass;
 
+    // 依照使用者身份顯示基本資料
+    if (userData.role === "teacher") {
+
+        // 老師：顯示帳號、姓名
+        if (studentIdRow) studentIdRow.style.display = "none";
+        if (classRow) classRow.style.display = "none";
+
+        if (realNameRow) realNameRow.style.display = "block";
+
+        if (userRealNameElem) {
+            userRealNameElem.textContent = userData.real_name || "";
+        }
+
+    } else if (userData.role === "student"){
+
+        // 學生：顯示帳號、學號、班級
+        if (studentIdRow) studentIdRow.style.display = "block";
+        if (classRow) classRow.style.display = "block";
+
+        if (realNameRow) realNameRow.style.display = "none";
+
+        if (userStudentIdElem) {
+            userStudentIdElem.textContent = savedStudentID;
+        }
+
+        if (userClassElem) {
+            userClassElem.textContent = savedClass;
+        }
+
+        // 學生登入後自動帶入自己的班級
+        if (classSelect && savedClass) {
+            classSelect.value = savedClass;
+        }
+    }
     // 判斷網址列是否帶有查詢參數：若為點擊查詢，隱藏歡迎遮罩；否則顯示歡迎詞
     if (urlParams.get("year") || urlParams.get("class_name")) {
         if (toastOverlay) {
@@ -58,38 +100,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     } else if (toastMessageElem) {
         toastMessageElem.textContent = `歡迎 ${savedAccount} 登入成功！`;
-    }
-
-    // =======================================================
-    // 3. 渲染課表資料 (讀取後端傳來的 rows_json)
-    // =======================================================
-    const timetableBody = document.getElementById("timetableBody");
-    if (timetableBody) {
-        try {
-            const rowsData = JSON.parse('{{ rows_json|safe }}');
-            const trElements = timetableBody.querySelectorAll("tr");
-
-            rowsData.forEach((row, periodIndex) => {
-                const tr = trElements[periodIndex];
-                if (tr) {
-                    const tds = tr.querySelectorAll("td");
-                    row.cells.forEach((cell, dayIndex) => {
-                        const targetTd = tds[dayIndex + 1];
-                        if (targetTd && cell.course_name) {
-                            targetTd.innerHTML = `
-                                <div class="course-box" style="text-align: center; padding: 5px; background: #eef2f7; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                                    <div class="course-name" style="font-weight: bold; color: #2c3e50; font-size: 0.95em; margin-bottom: 2px;">${cell.course_name}</div>
-                                    <div class="course-teacher" style="font-size: 0.85em; color: #7f8c8d;">${cell.teacher}老師</div>
-                                    <div class="course-room" style="font-size: 0.85em; color: #95a5a6; margin-top: 2px;">${cell.classroom}</div>
-                                </div>
-                            `;
-                        }
-                    });
-                }
-            });
-        } catch (e) {
-            console.log("初始化或未帶查詢參數，暫不渲染課表資料。");
-        }
     }
 
     // =======================================================

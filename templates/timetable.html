@@ -24,12 +24,34 @@
         <!-- 懸浮基本資料卡 -->
         <div class="user-profile-card">
             <h3>基本資料</h3>
-            <p><strong>帳號：</strong><span id="user-account">載入中...</span></p>
-            <p><strong>學號：</strong><span id="user-student-id">載入中...</span></p>
-            <p><strong>班級：</strong><span id="user-class">載入中...</span></p>
+
+            <!-- 所有身份都顯示 -->
+            <p>
+                <strong>帳號：</strong>
+                <span id="user-account">載入中...</span>
+            </p>
+
+            <!-- 學生才顯示 -->
+            <p id="student-id-row">
+                <strong>學號：</strong>
+                <span id="user-student-id">載入中...</span>
+            </p>
+
+            <p id="class-row">
+                <strong>班級：</strong>
+                <span id="user-class">載入中...</span>
+            </p>
+
+            <!-- 老師才顯示 -->
+            <p id="real-name-row" style="display: none;">
+                <strong>姓名：</strong>
+                <span id="user-real-name">載入中...</span>
+            </p>
+
             <form id="logoutForm" action="{% url 'homepage:logout' %}" method="POST" style="display: none;">
                 {% csrf_token %}
             </form>
+
             <button type="button" class="logout-btn" id="logoutBtn">登出</button>
         </div>
     </div>

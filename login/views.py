@@ -25,22 +25,35 @@ def _user_data(user):
         profile = user.profile
     except UserProfile.DoesNotExist:
         profile = None
-    
+
     role = profile.role if profile else "student"
-    role_display = profile.get_role_display() if profile else "學生"
-    class_name = profile.school_class.name if profile and profile.school_class else None
-    real_name = profile.real_name if profile else user.username
-    student_id = profile.student_id if profile else user.username
-    
-    return {
+
+    data = {
         "username": user.username,
         "account": user.username,
-        "real_name": real_name,
-        "student_id": student_id,
         "role": role,
-        "role_display": role_display,
-        "class_name": class_name,
+        "role_display": profile.get_role_display() if profile else "學生",
     }
+
+    if role == "teacher":
+        # 老師只需要帳號與姓名
+        data["real_name"] = (
+            profile.real_name or user.username
+        ) if profile else user.username
+
+    else:
+        # 學生需要帳號、學號與班級
+        data["student_id"] = (
+            profile.student_id or ""
+        ) if profile else ""
+
+        data["class_name"] = (
+            profile.school_class.name
+            if profile and profile.school_class
+            else ""
+        )
+
+    return data
 
 
 """把表單錯誤整理成 {欄位: [錯誤原因, ...]} 的格式"""
