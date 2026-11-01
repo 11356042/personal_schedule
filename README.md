@@ -44,7 +44,7 @@ python --version
 ### 1. 取得專案
 
 ```powershell
-git clone https://github.com/你的帳號/personal_schedule.git
+git clone https://github.com/11356042/personal_schedule.git
 cd personal_schedule
 ```
 
