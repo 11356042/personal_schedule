@@ -60,13 +60,18 @@ class RegisterForm(forms.Form):
         return username
 
 
-    # 檢查學號是否為 8 位數字
+    # 檢查學號是否剛好 8碼且不能重覆 
     def clean_student_id(self):
         student_id = self.cleaned_data.get("student_id")
-
+        #檢查長度
         if student_id and len(student_id) != 8:
             raise forms.ValidationError("學號必須為 8 碼")
-
+        #檢查學號是否重覆
+        if student_id and UserProfile.objects.filter(
+            student_id=student_id,
+            role="student"
+        ).exists():
+            raise forms.ValidationError("此學號已被註冊，請使用其他學號")
         return student_id
 
     def clean_password(self):
