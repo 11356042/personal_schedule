@@ -20,8 +20,11 @@ class RegisterForm(forms.Form):
         error_messages={"required": "請輸入姓名"}
     )
     student_id = forms.CharField(
-        max_length=20,
-        required=False
+        max_length=8,
+        required=False,
+        error_messages={
+            "max_length":"學號不可超過8碼",
+        }
     )
     password = forms.CharField(
         min_length=8,
@@ -49,12 +52,22 @@ class RegisterForm(forms.Form):
         error_messages={"invalid_choice": "請選擇有效的班級"}
     )
 
-    # 💥 關鍵修正：單獨檢查帳號是否已存在（不分大小寫）
+    # 檢查帳號是否已存在
     def clean_username(self):
         username = self.cleaned_data.get("username")
         if username and User.objects.filter(username__iexact=username).exists():
             raise forms.ValidationError("此帳號已被註冊，請換一個帳號")
         return username
+
+
+    # 檢查學號是否為 8 位數字
+    def clean_student_id(self):
+        student_id = self.cleaned_data.get("student_id")
+
+        if student_id and len(student_id) != 8:
+            raise forms.ValidationError("學號必須為 8 碼")
+
+        return student_id
 
     def clean_password(self):
         password = self.cleaned_data.get("password")

@@ -88,9 +88,10 @@ document.addEventListener("DOMContentLoaded", async function () {
             userClassElem.textContent = savedClass;
         }
 
-        // 學生登入後自動帶入自己的班級
-        if (classSelect && savedClass) {
-            classSelect.value = savedClass;
+        // 優先顯示網址目前查詢的班級
+        // 如果網址沒有班級，才預設使用學生自己的班級
+        if (classSelect) {
+            classSelect.value = urlParams.get("class_name") || savedClass;
         }
         // 學生第一次進入課表頁面，自動查詢課表
         if (!urlParams.get("year") ||
