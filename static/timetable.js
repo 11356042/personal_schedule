@@ -92,6 +92,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (classSelect && savedClass) {
             classSelect.value = savedClass;
         }
+        // 學生第一次進入課表頁面，自動查詢課表
+        if (!urlParams.get("year") ||
+        !urlParams.get("semester") ||
+        !urlParams.get("class_name")){
+            if (!savedClass) {
+                alert("目前帳號尚未設定班級，請聯絡管理人員！");
+                return;
+            }
+            const currentYear = new Date().getFullYear() - 1911;
+            const params = new URLSearchParams({
+                year: currentYear.toString(),
+                semester: "1",
+                class_name: savedClass
+            });
+            window.location.replace(
+                `${window.location.pathname}?${params.toString()}`
+            );
+            return;
+        }
     }
     // 判斷網址列是否帶有查詢參數：若為點擊查詢，隱藏歡迎遮罩；否則顯示歡迎詞
     if (urlParams.get("year") || urlParams.get("class_name")) {
