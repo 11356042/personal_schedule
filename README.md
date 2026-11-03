@@ -72,8 +72,8 @@ python manage.py check
 python manage.py migrate
 
 # 建立測試帳號與課程資料（兩個獨立指令，請依序執行）
-python manage.py init_test_users
 python manage.py init_school_classes
+python manage.py init_test_users
 ```
 
 ### 4. 啟動開發伺服器
