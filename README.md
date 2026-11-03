@@ -55,13 +55,8 @@ cd personal_schedule
 
 ```powershell
 python -m venv .venv
-.venv\Scripts\activate
 python -m pip install -r requirements.txt
 ```
-
-啟用成功後，命令列前面會出現 `(.venv)`。離開虛擬環境請輸入 `deactivate`。
-
-> 每次重新開啟終端機，都要再執行一次 `.venv\Scripts\activate`。
 
 ### 3. 資料庫初始化與建立測試資料
 
